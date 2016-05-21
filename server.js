@@ -15,7 +15,7 @@ nconf.file({ file: "config.json" });
 // WEB & SocketIO handling
 // -------------------------------------------
 
-var server = httpmanager.init(app);
+var server = httpmanager.init(app, dbmanager);
 var io = require('socket.io').listen(server);
 
 var clients = {};
