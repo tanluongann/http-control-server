@@ -1,7 +1,7 @@
 {
 
-	"privateKey":  fs.readFileSync('/etc/letsencrypt/live/ujust.watch/privkey.pem', 'utf8'),
- 	"certificate": fs.readFileSync('/etc/letsencrypt/live/ujust.watch/cert.pem', 'utf8'),
-	"chain":       fs.readFileSync('/etc/letsencrypt/live/ujust.watch/chain.pem', 'utf8'),
+	"privateKey":  "/etc/letsencrypt/live/ujust.watch/privkey.pem",
+ 	"certificate": "/etc/letsencrypt/live/ujust.watch/cert.pem",
+	"chain":       "/etc/letsencrypt/live/ujust.watch/chain.pem",
   	"httpsPort":   443
 }
