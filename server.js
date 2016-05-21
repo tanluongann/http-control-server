@@ -1,6 +1,5 @@
 var express = require('express');
 var app = express();
-var https = require('https');
 var path = require('path');
 var fs = require('fs');
 var mongoose = require('mongoose');
@@ -13,10 +12,8 @@ var httpmanager = require("./lib/httpmanager");
 // WEB & SocketIO handling
 // -------------------------------------------
 
-var server = https.createServer(credentials, app);
+var server = httpmanager.server.init(app);
 var io = require('socket.io').listen(server);
-
-httpmanager.server.init(app);
 
 var clients = {};
 var refreshTimer = null;

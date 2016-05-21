@@ -40478,7 +40478,7 @@
 	  render: function render() {
 
 	    var actionBlocks = [];
-	    if (this.props.device.intact === "CeciDoitEtreIntactPourEtre UneNouvelleBox") {
+	    if (!this.props.device.setup) {
 	      var setupActionBlock = _react2.default.createElement(
 	        'a',
 	        { className: 'setup', key: 'setupactionblock', onClick: this.setupDevice },
@@ -42099,6 +42099,8 @@
 
 	var _reactRedux = __webpack_require__(234);
 
+	var _action_creators = __webpack_require__(296);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var DeviceDetails = exports.DeviceDetails = _react2.default.createClass({
@@ -42109,6 +42111,10 @@
 
 	  componentDidUpdate: function componentDidUpdate() {},
 
+	  onChangeName: function onChangeName(e) {
+	    this.props.dispatch((0, _action_creators.updateName)(this.props.device.id, e.target.value));
+	  },
+
 	  render: function render() {
 
 	    var setupInfo = {
@@ -42116,6 +42122,8 @@
 	      "no": { "class": "no", "label": "Not performed" },
 	      "pending": { "class": "pending", "label": "Pending" }
 	    };
+	    this.props.device.setup = this.props.device.setup || 'no';
+	    var infoLabel = setupInfo[this.props.device.setup].label;
 
 	    return _react2.default.createElement(
 	      'div',
@@ -42129,7 +42137,7 @@
 	          _react2.default.createElement(
 	            'span',
 	            { className: 'label' },
-	            'Name'
+	            'Id'
 	          ),
 	          _react2.default.createElement(
 	            'span',
@@ -42176,7 +42184,63 @@
 	          _react2.default.createElement(
 	            'span',
 	            { className: 'value' },
-	            setupInfo[this.props.device.setup].label
+	            infoLabel
+	          )
+	        )
+	      ),
+	      _react2.default.createElement(
+	        'div',
+	        { className: 'infogroup' },
+	        _react2.default.createElement(
+	          'span',
+	          { className: 'info' },
+	          _react2.default.createElement(
+	            'span',
+	            { className: 'label' },
+	            'IP'
+	          ),
+	          _react2.default.createElement(
+	            'span',
+	            { className: 'value' },
+	            this.props.device.ip
+	          )
+	        ),
+	        _react2.default.createElement(
+	          'span',
+	          { className: 'info' },
+	          _react2.default.createElement(
+	            'span',
+	            { className: 'label' },
+	            'Name'
+	          ),
+	          _react2.default.createElement('input', { className: 'value', onChange: this.onChangeName, value: this.props.device.name })
+	        ),
+	        _react2.default.createElement(
+	          'span',
+	          { className: 'info' },
+	          _react2.default.createElement(
+	            'span',
+	            { className: 'label' },
+	            'Property'
+	          ),
+	          _react2.default.createElement(
+	            'span',
+	            { className: 'value' },
+	            '??'
+	          )
+	        ),
+	        _react2.default.createElement(
+	          'span',
+	          { className: 'info' },
+	          _react2.default.createElement(
+	            'span',
+	            { className: 'label' },
+	            'Property'
+	          ),
+	          _react2.default.createElement(
+	            'span',
+	            { className: 'value' },
+	            '??'
 	          )
 	        )
 	      ),
@@ -42290,6 +42354,11 @@
 	    this.props.dispatch((0, _action_creators.setupDevice)(this.props.device));
 	  },
 
+	  changePassword: function changePassword() {
+	    // TODO: Update to the proper function changePassword
+	    this.props.dispatch((0, _action_creators.setupDevice)(this.props.device));
+	  },
+
 	  render: function render() {
 
 	    var setupInfo = {
@@ -42315,6 +42384,20 @@
 	            'span',
 	            null,
 	            'Execute the initialization process to define a unique password and set device properties'
+	          )
+	        ),
+	        _react2.default.createElement(
+	          'li',
+	          null,
+	          _react2.default.createElement(
+	            'button',
+	            { className: 'no', onClick: this.changePassword },
+	            'Change pwd'
+	          ),
+	          _react2.default.createElement(
+	            'span',
+	            null,
+	            'Change the password on both the server and client side, in case it has been compromised'
 	          )
 	        )
 	      )
