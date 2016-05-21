@@ -1,6 +1,7 @@
 {
-  "privateKey":  "/etc/apache2/ssl/apache.key",
-  "certificate": "/etc/apache2/ssl/apache.crt",
-  "chain": 		 "/etc/apache2/ssl/apache.crt",
-  "httpsPort": 	 8084
+
+	"privateKey":  fs.readFileSync('/etc/letsencrypt/live/ujust.watch/privkey.pem', 'utf8'),
+ 	"certificate": fs.readFileSync('/etc/letsencrypt/live/ujust.watch/cert.pem', 'utf8'),
+	"chain":       fs.readFileSync('/etc/letsencrypt/live/ujust.watch/chain.pem', 'utf8'),
+  	"httpsPort":   443
 }
