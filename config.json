@@ -1,0 +1,6 @@
+{
+  "privateKey":  "/etc/letsencrypt/live/ujust.watch/privkey.pem",
+  "certificate": "/etc/letsencrypt/live/ujust.watch/cert.pem",
+  "chain": 		 "/etc/letsencrypt/live/ujust.watch/chain.pem",
+  "httpsPort": 	 443
+}

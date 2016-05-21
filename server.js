@@ -3,16 +3,19 @@ var app = express();
 var path = require('path');
 var fs = require('fs');
 var mongoose = require('mongoose');
+const nconf = require('nconf');
 var _ = require('lodash');
 
 var dbmanager = require("./lib/dbmanager");
 var httpmanager = require("./lib/httpmanager");
- 
+
+nconf.file({ file: "config.json" });
+
 // -------------------------------------------
 // WEB & SocketIO handling
 // -------------------------------------------
 
-var server = httpmanager.server.init(app);
+var server = httpmanager.init(app);
 var io = require('socket.io').listen(server);
 
 var clients = {};
@@ -100,8 +103,8 @@ io.on('connection', function(socket) {
   var refreshTimer = setInterval(requestAllProbesStatus, 60);
 });
 
-server.listen(HTTPS_PORT, function() {
-  console.log('global - Listening HTTPS on *:' + HTTPS_PORT);
+httpmanager.listen(function() {
+  console.log('global - Listening HTTPS on 443');
 });
 
 // -------------------------------------------
