@@ -10,7 +10,7 @@ describe("HTTPManager", function() {
 
 	describe(".init", function() {
 	    it("return an http server", function() {
-	    	var srv = dbmanager.init(app);
+	    	var srv = httpmanager.init(app);
     	});
    	});
 
