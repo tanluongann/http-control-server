@@ -8,23 +8,21 @@ export const AccessPage = React.createClass({
 
   render: function() {
 
-   return <div className="accesspage">
+   	return <div className="accesspage">
+		<div className="box">
 
-	<div className="box">
+			<div className="panel1">
+				<h2>Welcome to</h2>
+				<h2>UJustWatch</h2>
+			</div>
 
-		<div className="panel1">
-			<h2>Welcome to</h2>
-			<h2>UJustWatch</h2>
+			<div className="panel2">
+				loginpage
+			</div>
+
 		</div>
-		
-		<div className="panel2">
-			loginpage
-		</div>
+	</div>
 
-  </div>
-</div>
-
-   </div>;
   }
 
 });
