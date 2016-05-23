@@ -8,6 +8,8 @@ import reducer from './reducer';
 import App from './components/App';
 import startSocket, {socketMiddleware} from './middleware/sockets';
 import {DevicesContainer} from './components/Devices';
+import {HomePageContainer} from './components/HomePage';
+import {AccessPageContainer} from './components/AccessPage';
 
 const createStoreWithMiddleware = applyMiddleware(socketMiddleware)(createStore);
 const store = createStoreWithMiddleware(reducer);
@@ -15,7 +17,9 @@ const store = createStoreWithMiddleware(reducer);
 startSocket(store);
 
 const routes = <Route component={App}>
-  <Route path="/" component={DevicesContainer} />
+  <Route path="/ujw_admin" component={DevicesContainer} />
+  <Route path="/access" component={AccessPageContainer} />
+  <Route path="/" component={HomePageContainer} />
 </Route>;
 
 ReactDOM.render(
