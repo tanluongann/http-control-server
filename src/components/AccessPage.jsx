@@ -17,7 +17,18 @@ export const AccessPage = React.createClass({
 			</div>
 
 			<div className="panel2">
-				loginpage
+
+				<span className="avatar"></span>
+
+				<div className="form">
+
+				  <input />
+				  <input />
+				  </div>  
+
+
+				</div>
+
 			</div>
 
 		</div>
