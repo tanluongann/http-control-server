@@ -10,20 +10,14 @@ export const AccessPage = React.createClass({
 
    	return <div className="accesspage">
 		<div className="box">
-
-			<div className="panel1">
-				<h2>Welcome to</h2>
-				<h2>UJustWatch</h2>
-			</div>
-
 			<div className="panel2">
 				<span className="avatar"></span>
+				<h2><span className="you">You</span><span className="just">Just</span><span className="watch">Watch</span></h2>
 				<div className="form">
-					inputs
-
-				</div>  
+					<input type="text" placeholder="Login"/>
+					<input type="password" placeholder="Password"/>
+				</div>
 			</div>
-
 		</div>
 	</div>
 
