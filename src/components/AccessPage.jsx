@@ -13,9 +13,11 @@ export const AccessPage = React.createClass({
 			<div className="panel2">
 				<span className="avatar"></span>
 				<h2><span className="you">You</span><span className="just">Just</span><span className="watch">Watch</span></h2>
+				<span className="instructions">Please login to access your content</span>
 				<div className="form">
 					<input type="text" placeholder="Login"/>
 					<input type="password" placeholder="Password"/>
+					<input type="submit" value="Login" className="submit"/>
 				</div>
 			</div>
 		</div>
