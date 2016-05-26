@@ -33,7 +33,7 @@ export const AccessPage = React.createClass({
           <form className="loginform" onSubmit={ this.onLoginSubmit }>
             <input type="text" placeholder="Login" onChange={ this.onUpdateLogin } value={ this.props.login }/>
             <input type="password" placeholder="Password" onChange={ this.onUpdatePassword } value={ this.props.password }/>
-            <input type="submit" value="Login" className="submit" onClick={ this.onLoginSubmit }/>
+            <input type="submit" value="Login" className="submit" />
           </form>
         </div>
       </div>
