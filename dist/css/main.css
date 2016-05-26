@@ -263,9 +263,20 @@ body {
       color: white;
       width: 70px; }
 
+.app {
+  height: 100%; }
+
 .accesspage {
   width: 100%;
-  height: 100%; }
+  height: 100%;
+  background: #499bea;
+  background: -moz-radial-gradient(center, ellipse cover, #499bea 0%, #135194 100%);
+  background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%, #499bea), color-stop(100%, #135194));
+  background: -webkit-radial-gradient(center, ellipse cover, #499bea 0%, #135194 100%);
+  background: -o-radial-gradient(center, ellipse cover, #499bea 0%, #135194 100%);
+  background: -ms-radial-gradient(center, ellipse cover, #499bea 0%, #135194 100%);
+  background: radial-gradient(ellipse at center, #60b3da 0%, #606692 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#499bea', endColorstr='#135194', GradientType=1 ); }
   .accesspage .box {
     background: white;
     color: black;
