@@ -18,7 +18,7 @@ startSocket(store);
 
 const routes = <Route component={App}>
   <Route path="/ujw_admin" component={DevicesContainer} />
-  <Route path="/access" component={AccessPageContainer} />
+  <Route path="/access/:device" component={AccessPageContainer} />
   <Route path="/" component={HomePageContainer} />
 </Route>;
 

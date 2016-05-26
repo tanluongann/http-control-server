@@ -8,7 +8,7 @@ export const AccessPage = React.createClass({
   mixins: [PureRenderMixin],    
 
   onLoginSubmit: function() {
-    console.log(this.props.login + '/' + this.props.password);
+    console.log(this.props.login + '/' + this.props.password+'/'+this.props.params.device);
   },
 
   onUpdateLogin: function(e) {
