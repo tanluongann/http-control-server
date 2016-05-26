@@ -11,7 +11,7 @@ export const AccessPage = React.createClass({
    	return <div className="accesspage">
 		<div className="box">
 			<div className="panel2">
-				<span className="avatar"></span>
+				<span className="avatar">?</span>
 				<h2><span className="you">You</span><span className="just">Just</span><span className="watch">Watch</span></h2>
 				<span className="instructions">Please login to access your content</span>
 				<div className="form">
