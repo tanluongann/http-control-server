@@ -8,7 +8,7 @@ export const AccessPage = React.createClass({
   mixins: [PureRenderMixin],    
 
   onLoginSubmit: function() {
-    alert(this.props.login+'/'+this.props.password);
+    console.log(this.props.login + '/' + this.props.password);
   },
 
   onUpdateLogin: function(e) {
@@ -24,7 +24,6 @@ export const AccessPage = React.createClass({
   },
 
   render: function() {
-
     return <div className="accesspage">
       <div className="box">
         <div className="panel2">
@@ -39,7 +38,6 @@ export const AccessPage = React.createClass({
         </div>
       </div>
     </div>
-
   }
 
 });
