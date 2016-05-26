@@ -42791,7 +42791,7 @@
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
-		value: true
+	  value: true
 	});
 	exports.AccessPageContainer = exports.AccessPage = undefined;
 
@@ -42805,60 +42805,87 @@
 
 	var _reactRedux = __webpack_require__(234);
 
+	var _action_creators = __webpack_require__(300);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var AccessPage = exports.AccessPage = _react2.default.createClass({
-		displayName: 'AccessPage',
+	  displayName: 'AccessPage',
 
 
-		mixins: [_reactAddonsPureRenderMixin2.default],
+	  mixins: [_reactAddonsPureRenderMixin2.default],
 
-		render: function render() {
+	  onLoginSubmit: function onLoginSubmit() {
+	    alert(this.props.login + '/' + this.props.password);
+	  },
 
-			return _react2.default.createElement(
-				'div',
-				{ className: 'accesspage' },
-				_react2.default.createElement(
-					'div',
-					{ className: 'box' },
-					_react2.default.createElement(
-						'div',
-						{ className: 'panel2' },
-						_react2.default.createElement('span', { className: 'avatar' }),
-						_react2.default.createElement(
-							'h2',
-							null,
-							_react2.default.createElement(
-								'span',
-								{ className: 'you' },
-								'You'
-							),
-							_react2.default.createElement(
-								'span',
-								{ className: 'just' },
-								'Just'
-							),
-							_react2.default.createElement(
-								'span',
-								{ className: 'watch' },
-								'Watch'
-							)
-						),
-						_react2.default.createElement(
-							'div',
-							{ className: 'form' },
-							_react2.default.createElement('input', { type: 'text', placeholder: 'Login' }),
-							_react2.default.createElement('input', { type: 'password', placeholder: 'Password' })
-						)
-					)
-				)
-			);
-		}
+	  onUpdateLogin: function onUpdateLogin(e) {
+	    this.props.dispatch((0, _action_creators.updateLogin)(e.target.value));
+	  },
+
+	  onUpdatePassword: function onUpdatePassword(e) {
+	    this.props.dispatch((0, _action_creators.updatePassword)(e.target.value));
+	  },
+
+	  render: function render() {
+
+	    return _react2.default.createElement(
+	      'div',
+	      { className: 'accesspage' },
+	      _react2.default.createElement(
+	        'div',
+	        { className: 'box' },
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'panel2' },
+	          _react2.default.createElement(
+	            'span',
+	            { className: 'avatar' },
+	            '?'
+	          ),
+	          _react2.default.createElement(
+	            'h2',
+	            null,
+	            _react2.default.createElement(
+	              'span',
+	              { className: 'you' },
+	              'You'
+	            ),
+	            _react2.default.createElement(
+	              'span',
+	              { className: 'just' },
+	              'Just'
+	            ),
+	            _react2.default.createElement(
+	              'span',
+	              { className: 'watch' },
+	              'Watch'
+	            )
+	          ),
+	          _react2.default.createElement(
+	            'span',
+	            { className: 'instructions' },
+	            'Please login to access your content'
+	          ),
+	          _react2.default.createElement(
+	            'form',
+	            { className: 'loginform', onSubmit: this.onLoginSubmit },
+	            _react2.default.createElement('input', { type: 'text', placeholder: 'Login', onChange: this.onUpdateLogin }),
+	            _react2.default.createElement('input', { type: 'password', placeholder: 'Password', onChange: this.onUpdatePassword }),
+	            _react2.default.createElement('input', { type: 'submit', value: 'Login', className: 'submit', onClick: true })
+	          )
+	        )
+	      )
+	    );
+	  }
 
 	});
 
 	function mapStateToProps(state) {
-		return {};
+	  return {
+	    login: state.getIn(['ui', 'logininfo', 'login']),
+	    password: state.getIn(['ui', 'logininfo', 'password'])
+	  };
 	}
 
 	var AccessPageContainer = exports.AccessPageContainer = (0, _reactRedux.connect)(mapStateToProps)(AccessPage);
