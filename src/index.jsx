@@ -13,7 +13,7 @@ import {HomePageContainer} from './components/HomePage';
 import {AccessPageContainer} from './components/AccessPage';
 
 var middleware = [socketMiddleware, httpMiddleware]
-const createStoreWithMiddleware = applyMiddleware(middleware)(createStore);
+const createStoreWithMiddleware = applyMiddleware(...middleware)(createStore);
 const store = createStoreWithMiddleware(reducer);
 
 startSocket(store);

@@ -94,7 +94,7 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var middleware = [_sockets.socketMiddleware, _http.httpMiddleware];
-	var createStoreWithMiddleware = (0, _redux.applyMiddleware)(middleware)(_redux.createStore);
+	var createStoreWithMiddleware = _redux.applyMiddleware.apply(undefined, middleware)(_redux.createStore);
 	var store = createStoreWithMiddleware(_reducer2.default);
 
 	(0, _sockets2.default)(store);
