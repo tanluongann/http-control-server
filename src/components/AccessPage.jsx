@@ -11,7 +11,7 @@ export const AccessPage = React.createClass({
     console.log(this.props.login + '/' + this.props.password+'/'+this.props.params.device);
     this.props.dispatch(authenticateHTTP(
       this.props.login,
-      this.props.password,
+      this.props.password
     ));
   },
 
