@@ -80,9 +80,9 @@ function authenticateHTTP(state, login, password) {
       })
     }
   ).then(function(response) {
-    dispatch(updateAuthentication({ "connected": true, "identity": response });
+    dispatch(updateAuthentication({ "connected": true, "identity": response }));
   }).catch(function(err) {
-    dispatch(updateAuthentication({ "connected": false, "identity": {} });
+    dispatch(updateAuthentication({ "connected": false, "identity": {} }));
   });
   return state;
 }
