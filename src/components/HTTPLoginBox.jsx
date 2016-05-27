@@ -8,7 +8,7 @@ export const HTTPLoginBox = React.createClass({
   mixins: [PureRenderMixin],    
 
   onLoginSubmit: function() {
-    console.log(this.props.login + '/' + this.props.password+'/'+this.props.params.device);
+    console.log(this.props.login + '/' + this.props.password+'/'+this.props.device);
     this.props.dispatch(authenticateHTTP(
       this.props.login,
       this.props.password
