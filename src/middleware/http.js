@@ -20,7 +20,15 @@ export function httpMiddleware(store) {
           })
         }
       ).then(function(response) {
-        store.dispatch(updateAuthentication({ "connected": response.ok, "identity": response }));
+        if (response.ok) {
+          response.json().then(function(data) {  
+            console.log(data);  
+            store.dispatch(updateAuthentication({ "connected": true, "identity": data }));
+          });
+        }
+        else {
+          store.dispatch(updateAuthentication({ "connected": false, "identity": {} }));
+        }
       }).catch(function(err) {
         store.dispatch(updateAuthentication({ "connected": false, "identity": {} }));
       });
