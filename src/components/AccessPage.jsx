@@ -9,6 +9,10 @@ export const AccessPage = React.createClass({
 
   onLoginSubmit: function() {
     console.log(this.props.login + '/' + this.props.password+'/'+this.props.params.device);
+    this.props.dispatch(authenticateHTTP(
+      this.props.login,
+      this.props.password,
+    ));
   },
 
   onUpdateLogin: function(e) {
