@@ -12,7 +12,7 @@ export const AccessPage = React.createClass({
   render: function() {
 
     var accessbox = '';
-    var loginbox = <HTTPLoginBoxContainer visible={ this.props.auth.connected }></HTTPLoginBoxContainer>;
+    var loginbox = <HTTPLoginBoxContainer visible={ this.props.auth && this.props.auth.connected }></HTTPLoginBoxContainer>;
 
     return <div className="accesspage">
       <div className="box">
