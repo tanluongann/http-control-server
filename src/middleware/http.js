@@ -55,6 +55,7 @@ export function httpMiddleware(store) {
         if (response.ok) {
           response.json().then(function(data) {  
             console.log(data);  
+            data.id = data.hash;
             store.dispatch(refreshDevice(data));
           });
         }
