@@ -7,11 +7,13 @@ import io from 'socket.io-client';
 import reducer from './reducer';
 import App from './components/App';
 import startSocket, {socketMiddleware} from './middleware/sockets';
+import {httpMiddleware} from './middleware/http';
 import {DevicesContainer} from './components/Devices';
 import {HomePageContainer} from './components/HomePage';
 import {AccessPageContainer} from './components/AccessPage';
 
-const createStoreWithMiddleware = applyMiddleware(socketMiddleware)(createStore);
+var middleware = [socketMiddleware, httpMiddleware]
+const createStoreWithMiddleware = applyMiddleware(middleware)(createStore);
 const store = createStoreWithMiddleware(reducer);
 
 startSocket(store);

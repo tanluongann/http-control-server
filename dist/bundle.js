@@ -83,15 +83,18 @@
 
 	var _sockets2 = _interopRequireDefault(_sockets);
 
-	var _Devices = __webpack_require__(301);
+	var _http = __webpack_require__(301);
 
-	var _HomePage = __webpack_require__(328);
+	var _Devices = __webpack_require__(302);
 
-	var _AccessPage = __webpack_require__(329);
+	var _HomePage = __webpack_require__(329);
+
+	var _AccessPage = __webpack_require__(330);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var createStoreWithMiddleware = (0, _redux.applyMiddleware)(_sockets.socketMiddleware)(_redux.createStore);
+	var middleware = [_sockets.socketMiddleware, _http.httpMiddleware];
+	var createStoreWithMiddleware = (0, _redux.applyMiddleware)(middleware)(_redux.createStore);
 	var store = createStoreWithMiddleware(_reducer2.default);
 
 	(0, _sockets2.default)(store);
@@ -35128,8 +35131,6 @@
 	      return updateAuthentication(state, action.status);
 	    case 'AUTHENTICATE_WS':
 	      return state;
-	    case 'AUTHENTICATE_HTTP':
-	      return authenticateHTTP(state, action.login, action.password);
 	    case 'UPDATE_LOGIN':
 	      return updateLogin(state, action.value);
 	    case 'UPDATE_PASSWORD':
@@ -35203,27 +35204,6 @@
 	function updatePassword(state, value) {
 	  console.log('Updating the password for to ' + value);
 	  return state.setIn(['ui', 'logininfo', 'password'], value);
-	}
-
-	function authenticateHTTP(state, login, password) {
-	  return fetch('/login', {
-	    method: 'POST',
-	    headers: {
-	      'Accept': 'application/json',
-	      'Content-Type': 'application/json'
-	    },
-	    body: JSON.stringify({
-	      name: state.login,
-	      login: 'hubot'
-	    })
-	  }, function (response) {
-	    dispatch(doneFetchingBook()); // Hide loading spinner
-	    if (response.status == 200) {
-	      dispatch(setBook(response.json)); // Use a normal function to set the received state
-	    } else {
-	        dispatch(someError);
-	      }
-	  });
 	}
 
 /***/ },
@@ -40482,13 +40462,58 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
+	exports.httpMiddleware = httpMiddleware;
+
+	exports.default = function (store) {};
+
+	var _action_creators = __webpack_require__(300);
+
+	function httpMiddleware(store) {
+
+	  return function (next) {
+	    return function (action) {
+
+	      if (action.type === 'AUTHENTICATE_HTTP') {
+	        console.log('Performing the auth action');
+	        fetch('/login', {
+	          method: 'POST',
+	          headers: {
+	            'Accept': 'application/json',
+	            'Content-Type': 'application/json'
+	          },
+	          body: JSON.stringify({
+	            login: login,
+	            password: password
+	          })
+	        }).then(function (response) {
+	          dispatch((0, _action_creators.updateAuthentication)({ "connected": true, "identity": response }));
+	        }).catch(function (err) {
+	          dispatch((0, _action_creators.updateAuthentication)({ "connected": false, "identity": {} }));
+	        });
+	      }
+	      if (action.type === 'OTHER_ACTION') {}
+
+	      return next(action);
+	    };
+	  };
+	}
+
+/***/ },
+/* 302 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
 	exports.DevicesContainer = exports.Devices = undefined;
 
 	var _react = __webpack_require__(2);
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _reactAddonsPureRenderMixin = __webpack_require__(302);
+	var _reactAddonsPureRenderMixin = __webpack_require__(303);
 
 	var _reactAddonsPureRenderMixin2 = _interopRequireDefault(_reactAddonsPureRenderMixin);
 
@@ -40496,11 +40521,11 @@
 
 	var _action_creators = __webpack_require__(300);
 
-	var _Device = __webpack_require__(305);
+	var _Device = __webpack_require__(306);
 
-	var _LoginBox = __webpack_require__(326);
+	var _LoginBox = __webpack_require__(327);
 
-	var _LoggedPanel = __webpack_require__(327);
+	var _LoggedPanel = __webpack_require__(328);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -40550,13 +40575,13 @@
 	var DevicesContainer = exports.DevicesContainer = (0, _reactRedux.connect)(mapStateToProps)(Devices);
 
 /***/ },
-/* 302 */
+/* 303 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(303);
+	module.exports = __webpack_require__(304);
 
 /***/ },
-/* 303 */
+/* 304 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -40572,7 +40597,7 @@
 
 	'use strict';
 
-	var shallowCompare = __webpack_require__(304);
+	var shallowCompare = __webpack_require__(305);
 
 	/**
 	 * If your React component's render function is "pure", e.g. it will render the
@@ -40607,7 +40632,7 @@
 	module.exports = ReactComponentWithPureRenderMixin;
 
 /***/ },
-/* 304 */
+/* 305 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -40636,7 +40661,7 @@
 	module.exports = shallowCompare;
 
 /***/ },
-/* 305 */
+/* 306 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -40650,7 +40675,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _reactAddonsPureRenderMixin = __webpack_require__(302);
+	var _reactAddonsPureRenderMixin = __webpack_require__(303);
 
 	var _reactAddonsPureRenderMixin2 = _interopRequireDefault(_reactAddonsPureRenderMixin);
 
@@ -40658,11 +40683,11 @@
 
 	var _action_creators = __webpack_require__(300);
 
-	var _DeviceCommands = __webpack_require__(306);
+	var _DeviceCommands = __webpack_require__(307);
 
-	var _DeviceDetails = __webpack_require__(324);
+	var _DeviceDetails = __webpack_require__(325);
 
-	var _DeviceActions = __webpack_require__(325);
+	var _DeviceActions = __webpack_require__(326);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -40777,7 +40802,7 @@
 	var DeviceContainer = exports.DeviceContainer = (0, _reactRedux.connect)(mapStateToProps)(Device);
 
 /***/ },
-/* 306 */
+/* 307 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -40791,17 +40816,17 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _reactAddonsPureRenderMixin = __webpack_require__(302);
+	var _reactAddonsPureRenderMixin = __webpack_require__(303);
 
 	var _reactAddonsPureRenderMixin2 = _interopRequireDefault(_reactAddonsPureRenderMixin);
 
 	var _reactRedux = __webpack_require__(234);
 
-	var _reactCustomScrollbars = __webpack_require__(307);
+	var _reactCustomScrollbars = __webpack_require__(308);
 
 	var _action_creators = __webpack_require__(300);
 
-	var _DeviceCommand = __webpack_require__(323);
+	var _DeviceCommand = __webpack_require__(324);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -40893,7 +40918,7 @@
 	var DeviceCommandsContainer = exports.DeviceCommandsContainer = (0, _reactRedux.connect)(mapStateToProps)(DeviceCommands);
 
 /***/ },
-/* 307 */
+/* 308 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -40903,7 +40928,7 @@
 	});
 	exports.Scrollbars = undefined;
 
-	var _Scrollbars = __webpack_require__(308);
+	var _Scrollbars = __webpack_require__(309);
 
 	var _Scrollbars2 = _interopRequireDefault(_Scrollbars);
 
@@ -40913,7 +40938,7 @@
 	exports.Scrollbars = _Scrollbars2["default"];
 
 /***/ },
-/* 308 */
+/* 309 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -40924,11 +40949,11 @@
 
 	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
-	var _raf2 = __webpack_require__(309);
+	var _raf2 = __webpack_require__(310);
 
 	var _raf3 = _interopRequireDefault(_raf2);
 
-	var _domCss = __webpack_require__(311);
+	var _domCss = __webpack_require__(312);
 
 	var _domCss2 = _interopRequireDefault(_domCss);
 
@@ -40936,25 +40961,25 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _getScrollbarWidth = __webpack_require__(317);
+	var _getScrollbarWidth = __webpack_require__(318);
 
 	var _getScrollbarWidth2 = _interopRequireDefault(_getScrollbarWidth);
 
-	var _returnFalse = __webpack_require__(318);
+	var _returnFalse = __webpack_require__(319);
 
 	var _returnFalse2 = _interopRequireDefault(_returnFalse);
 
-	var _getInnerWidth = __webpack_require__(319);
+	var _getInnerWidth = __webpack_require__(320);
 
 	var _getInnerWidth2 = _interopRequireDefault(_getInnerWidth);
 
-	var _getInnerHeight = __webpack_require__(320);
+	var _getInnerHeight = __webpack_require__(321);
 
 	var _getInnerHeight2 = _interopRequireDefault(_getInnerHeight);
 
-	var _styles = __webpack_require__(321);
+	var _styles = __webpack_require__(322);
 
-	var _defaultRenderElements = __webpack_require__(322);
+	var _defaultRenderElements = __webpack_require__(323);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -41566,10 +41591,10 @@
 	});
 
 /***/ },
-/* 309 */
+/* 310 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(global) {var now = __webpack_require__(310)
+	/* WEBPACK VAR INJECTION */(function(global) {var now = __webpack_require__(311)
 	  , root = typeof window === 'undefined' ? global : window
 	  , vendors = ['moz', 'webkit']
 	  , suffix = 'AnimationFrame'
@@ -41645,7 +41670,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-/* 310 */
+/* 311 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {// Generated by CoffeeScript 1.7.1
@@ -41684,13 +41709,13 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5)))
 
 /***/ },
-/* 311 */
+/* 312 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var prefix = __webpack_require__(312)
-	var toCamelCase = __webpack_require__(313)
+	var prefix = __webpack_require__(313)
+	var toCamelCase = __webpack_require__(314)
 	var cache = { 'float': 'cssFloat' }
-	var addPxToStyle = __webpack_require__(316)
+	var addPxToStyle = __webpack_require__(317)
 
 	function style (element, property, value) {
 	  var camel = cache[property]
@@ -41747,7 +41772,7 @@
 
 
 /***/ },
-/* 312 */
+/* 313 */
 /***/ function(module, exports) {
 
 	var div = null
@@ -41783,11 +41808,11 @@
 
 
 /***/ },
-/* 313 */
+/* 314 */
 /***/ function(module, exports, __webpack_require__) {
 
 	
-	var toSpace = __webpack_require__(314);
+	var toSpace = __webpack_require__(315);
 
 
 	/**
@@ -41812,11 +41837,11 @@
 	}
 
 /***/ },
-/* 314 */
+/* 315 */
 /***/ function(module, exports, __webpack_require__) {
 
 	
-	var clean = __webpack_require__(315);
+	var clean = __webpack_require__(316);
 
 
 	/**
@@ -41841,7 +41866,7 @@
 	}
 
 /***/ },
-/* 315 */
+/* 316 */
 /***/ function(module, exports) {
 
 	
@@ -41920,7 +41945,7 @@
 	}
 
 /***/ },
-/* 316 */
+/* 317 */
 /***/ function(module, exports) {
 
 	/* The following list is defined in React's core */
@@ -41966,7 +41991,7 @@
 	};
 
 /***/ },
-/* 317 */
+/* 318 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -41976,7 +42001,7 @@
 	});
 	exports["default"] = getScrollbarWidth;
 
-	var _domCss = __webpack_require__(311);
+	var _domCss = __webpack_require__(312);
 
 	var _domCss2 = _interopRequireDefault(_domCss);
 
@@ -42007,7 +42032,7 @@
 	}
 
 /***/ },
-/* 318 */
+/* 319 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -42021,7 +42046,7 @@
 	}
 
 /***/ },
-/* 319 */
+/* 320 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -42042,7 +42067,7 @@
 	}
 
 /***/ },
-/* 320 */
+/* 321 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -42063,7 +42088,7 @@
 	}
 
 /***/ },
-/* 321 */
+/* 322 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -42139,7 +42164,7 @@
 	};
 
 /***/ },
-/* 322 */
+/* 323 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -42225,7 +42250,7 @@
 	}
 
 /***/ },
-/* 323 */
+/* 324 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -42239,7 +42264,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _reactAddonsPureRenderMixin = __webpack_require__(302);
+	var _reactAddonsPureRenderMixin = __webpack_require__(303);
 
 	var _reactAddonsPureRenderMixin2 = _interopRequireDefault(_reactAddonsPureRenderMixin);
 
@@ -42284,7 +42309,7 @@
 	var DeviceCommandContainer = exports.DeviceCommandContainer = (0, _reactRedux.connect)(mapStateToProps)(DeviceCommand);
 
 /***/ },
-/* 324 */
+/* 325 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -42298,7 +42323,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _reactAddonsPureRenderMixin = __webpack_require__(302);
+	var _reactAddonsPureRenderMixin = __webpack_require__(303);
 
 	var _reactAddonsPureRenderMixin2 = _interopRequireDefault(_reactAddonsPureRenderMixin);
 
@@ -42523,7 +42548,7 @@
 	var DeviceDetailsContainer = exports.DeviceDetailsContainer = (0, _reactRedux.connect)(mapStateToProps)(DeviceDetails);
 
 /***/ },
-/* 325 */
+/* 326 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -42537,7 +42562,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _reactAddonsPureRenderMixin = __webpack_require__(302);
+	var _reactAddonsPureRenderMixin = __webpack_require__(303);
 
 	var _reactAddonsPureRenderMixin2 = _interopRequireDefault(_reactAddonsPureRenderMixin);
 
@@ -42618,7 +42643,7 @@
 	var DeviceActionsContainer = exports.DeviceActionsContainer = (0, _reactRedux.connect)(mapStateToProps)(DeviceActions);
 
 /***/ },
-/* 326 */
+/* 327 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -42632,7 +42657,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _reactAddonsPureRenderMixin = __webpack_require__(302);
+	var _reactAddonsPureRenderMixin = __webpack_require__(303);
 
 	var _reactAddonsPureRenderMixin2 = _interopRequireDefault(_reactAddonsPureRenderMixin);
 
@@ -42704,7 +42729,7 @@
 	var LoginBoxContainer = exports.LoginBoxContainer = (0, _reactRedux.connect)(mapStateToProps)(LoginBox);
 
 /***/ },
-/* 327 */
+/* 328 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -42718,7 +42743,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _reactAddonsPureRenderMixin = __webpack_require__(302);
+	var _reactAddonsPureRenderMixin = __webpack_require__(303);
 
 	var _reactAddonsPureRenderMixin2 = _interopRequireDefault(_reactAddonsPureRenderMixin);
 
@@ -42771,7 +42796,7 @@
 	var LoggedPanelContainer = exports.LoggedPanelContainer = (0, _reactRedux.connect)(mapStateToProps)(LoggedPanel);
 
 /***/ },
-/* 328 */
+/* 329 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -42785,7 +42810,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _reactAddonsPureRenderMixin = __webpack_require__(302);
+	var _reactAddonsPureRenderMixin = __webpack_require__(303);
 
 	var _reactAddonsPureRenderMixin2 = _interopRequireDefault(_reactAddonsPureRenderMixin);
 
@@ -42817,7 +42842,7 @@
 	var HomePageContainer = exports.HomePageContainer = (0, _reactRedux.connect)(mapStateToProps)(HomePage);
 
 /***/ },
-/* 329 */
+/* 330 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -42831,7 +42856,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _reactAddonsPureRenderMixin = __webpack_require__(302);
+	var _reactAddonsPureRenderMixin = __webpack_require__(303);
 
 	var _reactAddonsPureRenderMixin2 = _interopRequireDefault(_reactAddonsPureRenderMixin);
 
@@ -42849,6 +42874,7 @@
 
 	  onLoginSubmit: function onLoginSubmit() {
 	    console.log(this.props.login + '/' + this.props.password + '/' + this.props.params.device);
+	    this.props.dispatch((0, _action_creators.authenticateHTTP)(this.props.login, this.props.password));
 	  },
 
 	  onUpdateLogin: function onUpdateLogin(e) {
