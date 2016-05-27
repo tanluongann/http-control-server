@@ -36,6 +36,7 @@ export function httpMiddleware(store) {
     }
     if (action.type === 'REQ_DEVICE_ACCESS_INFO') {
       console.log('Getting device access info for ' + action.device);
+      var state = store.getState();
       fetch(
         '/ip/'+action.device, 
         {
@@ -43,7 +44,11 @@ export function httpMiddleware(store) {
           headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
-          }
+          },
+          body: JSON.stringify({
+            login: state.getIn(['ui', 'logininfo', 'login']),
+            password: state.getIn(['ui', 'logininfo', 'password'])
+          })
         }
       ).then(function(response) {
         if (response.ok) {
