@@ -18,7 +18,7 @@ export const AccessPage = React.createClass({
   render: function() {
 
     var authCallback = function() {
-      requestAccess(this.props.params.device);
+      this.requestAccess(this.props.params.device);
     }
 
     var accessbox = '';
