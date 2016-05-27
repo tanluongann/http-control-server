@@ -24,6 +24,7 @@ export function httpMiddleware(store) {
           response.json().then(function(data) {  
             console.log(data);  
             store.dispatch(updateAuthentication({ "connected": true, "identity": data }));
+            if (action.callback) action.callback();
           });
         }
         else {
@@ -40,7 +41,7 @@ export function httpMiddleware(store) {
       fetch(
         '/ip/'+action.device, 
         {
-          method: 'GET',
+          method: 'POST',
           headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json'

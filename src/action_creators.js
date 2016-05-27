@@ -101,11 +101,12 @@ export function authenticate(login, password) {
 }
 
 
-export function authenticateHTTP(login, password) {
+export function authenticateHTTP(login, password, callback) {
   return {
     type: 'AUTHENTICATE_HTTP',
     login: login,
-    password: password
+    password: password,
+    callback: callback
   };
 }
 

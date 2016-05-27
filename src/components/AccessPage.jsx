@@ -17,8 +17,16 @@ export const AccessPage = React.createClass({
 
   render: function() {
 
+    var authCallback = function() {
+      requestAccess(this.props.params.device);
+    }
+
     var accessbox = '';
-    var loginbox = <HTTPLoginBoxContainer visible={ !this.props.auth || !this.props.auth.connected } device={ this.props.params.device }></HTTPLoginBoxContainer>;
+    var loginbox = <HTTPLoginBoxContainer 
+      visible={ !this.props.auth || !this.props.auth.connected } 
+      device={ this.props.params.device }
+      authCallback={ authCallback }
+    ></HTTPLoginBoxContainer>;
 
     return <div className="accesspage">
       <div className="box">

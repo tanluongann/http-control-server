@@ -11,7 +11,8 @@ export const HTTPLoginBox = React.createClass({
     console.log(this.props.login + '/' + this.props.password+'/'+this.props.device);
     this.props.dispatch(authenticateHTTP(
       this.props.login,
-      this.props.password
+      this.props.password,
+      this.props.authCallback
     ));
   },
 
