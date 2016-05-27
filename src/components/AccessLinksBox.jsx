@@ -11,7 +11,7 @@ export const AccessLinksBox = React.createClass({
     var activeClass = this.props.visible ? 'accesslinksbox' : 'accesslinksbox hidden';
 
     var content = 'No device info';
-    if (device) {
+    if (this.props.device) {
       var links = {
         "sonarr": "http://"+this.props.device.ip+":8989/calendar",
         "couchpotato": "http://"+this.props.device.ip+":5050",
