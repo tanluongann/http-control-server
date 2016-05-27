@@ -3,7 +3,8 @@ import PureRenderMixin from 'react-addons-pure-render-mixin';
 import {connect} from 'react-redux';
 import {requestDeviceAccessInfo} from '../action_creators';
 
-import {HTTPLoginBoxContainer} from '../components/HTTPLoginBox'
+import {HTTPLoginBoxContainer} from '../components/HTTPLoginBox';
+import {AccessLinksBoxContainer} from '../components/AccessLinksBox';
 
 export const AccessPage = React.createClass({
     
