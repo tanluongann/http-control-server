@@ -26,11 +26,12 @@ export const AccessPage = React.createClass({
     var device = null;
     if (this.props.devices) device = this.props.devices.get(view.props.params.device);
     var accessbox = <AccessLinksBoxContainer 
+      visible={ this.props.auth && this.props.auth.connected } 
       device={ device }
     ></AccessLinksBoxContainer>
 
     var loginbox = <HTTPLoginBoxContainer 
-      visible={ this.props.auth && this.props.auth.connected } 
+      visible={ !this.props.auth || !this.props.auth.connected } 
       device={ this.props.params.device }
       authCallback={ authCallback }
     ></HTTPLoginBoxContainer>;
