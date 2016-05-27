@@ -88,11 +88,9 @@ export function initSocket(store, socket, url, id, pw) {
   });
 
   return socket;
-
 }
 
 export default function(store) {
 
   socket = null
-
 }

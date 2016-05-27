@@ -100,7 +100,7 @@
 	  _reactRouter.Route,
 	  { component: _App2.default },
 	  _react2.default.createElement(_reactRouter.Route, { path: '/ujw_admin', component: _Devices.DevicesContainer }),
-	  _react2.default.createElement(_reactRouter.Route, { path: '/access', component: _AccessPage.AccessPageContainer }),
+	  _react2.default.createElement(_reactRouter.Route, { path: '/access/:device', component: _AccessPage.AccessPageContainer }),
 	  _react2.default.createElement(_reactRouter.Route, { path: '/', component: _HomePage.HomePageContainer })
 	);
 
@@ -42816,7 +42816,7 @@
 	  mixins: [_reactAddonsPureRenderMixin2.default],
 
 	  onLoginSubmit: function onLoginSubmit() {
-	    alert(this.props.login + '/' + this.props.password);
+	    console.log(this.props.login + '/' + this.props.password + '/' + this.props.params.device);
 	  },
 
 	  onUpdateLogin: function onUpdateLogin(e) {
@@ -42828,7 +42828,6 @@
 	  },
 
 	  render: function render() {
-
 	    return _react2.default.createElement(
 	      'div',
 	      { className: 'accesspage' },
@@ -42870,9 +42869,9 @@
 	          _react2.default.createElement(
 	            'form',
 	            { className: 'loginform', onSubmit: this.onLoginSubmit },
-	            _react2.default.createElement('input', { type: 'text', placeholder: 'Login', onChange: this.onUpdateLogin }),
-	            _react2.default.createElement('input', { type: 'password', placeholder: 'Password', onChange: this.onUpdatePassword }),
-	            _react2.default.createElement('input', { type: 'submit', value: 'Login', className: 'submit', onClick: true })
+	            _react2.default.createElement('input', { type: 'text', placeholder: 'Login', onChange: this.onUpdateLogin, value: this.props.login }),
+	            _react2.default.createElement('input', { type: 'password', placeholder: 'Password', onChange: this.onUpdatePassword, value: this.props.password }),
+	            _react2.default.createElement('input', { type: 'submit', value: 'Login', className: 'submit' })
 	          )
 	        )
 	      )
