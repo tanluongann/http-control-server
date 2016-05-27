@@ -78,16 +78,12 @@ function authenticateHTTP(state, login, password) {
         login: login,
         password: password
       })
-    },
-    (response) => {
-      dispatch(doneFetchingBook()); // Hide loading spinner
-      if(response.status == 200){
-        dispatch(setBook(response.json)); // Use a normal function to set the received state
-      } else { 
-        dispatch(someError)
-      }
     }
-  );
+  ).then(function(response) {
+    dispatch(updateAuthentication({ "connected": true, "identity": response });
+  }).catch(function(err) {
+    dispatch(updateAuthentication({ "connected": false, "identity": {} });
+  });
   return state;
 }
 
