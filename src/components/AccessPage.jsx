@@ -30,7 +30,7 @@ export const AccessPage = React.createClass({
     ></AccessLinksBoxContainer>
 
     var loginbox = <HTTPLoginBoxContainer 
-      visible={ !this.props.auth || !this.props.auth.connected } 
+      visible={ this.props.auth && this.props.auth.connected } 
       device={ this.props.params.device }
       authCallback={ authCallback }
     ></HTTPLoginBoxContainer>;
