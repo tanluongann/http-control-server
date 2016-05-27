@@ -15,14 +15,14 @@ export function httpMiddleware(store) {
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({
-            login: login,
-            password: password
+            login: action.login,
+            password: action.password
           })
         }
       ).then(function(response) {
-        dispatch(updateAuthentication({ "connected": true, "identity": response }));
+        store.dispatch(updateAuthentication({ "connected": response.ok, "identity": response }));
       }).catch(function(err) {
-        dispatch(updateAuthentication({ "connected": false, "identity": {} }));
+        store.dispatch(updateAuthentication({ "connected": false, "identity": {} }));
       });
 
     }
