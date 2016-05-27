@@ -39,7 +39,7 @@ export function httpMiddleware(store) {
       console.log('Getting device access info for ' + action.device);
       var state = store.getState();
       fetch(
-        '/ip/'+action.device, 
+        '/devices/'+action.device, 
         {
           method: 'POST',
           headers: {
