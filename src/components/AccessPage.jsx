@@ -22,7 +22,8 @@ export const AccessPage = React.createClass({
       view.requestAccess(view.props.params.device);
     }
 
-    var device = this.props.devices.get(view.props.params.device);
+    var device = null;
+    if (this.props.devices) device = this.props.devices.get(view.props.params.device);
     var accessbox = <AccessLinksBoxContainer 
       device={ device }
     ></AccessLinksBoxContainer>
