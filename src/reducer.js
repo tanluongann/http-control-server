@@ -66,7 +66,7 @@ function updatePassword(state, value) {
 }
 
 function authenticateHTTP(state, login, password) {
-  return fetch(
+  fetch(
     '/login', 
     {
       method: 'POST',
@@ -87,7 +87,8 @@ function authenticateHTTP(state, login, password) {
         dispatch(someError)
       }
     }
-  )
+  );
+  return state;
 }
 
 export default function(state = Map(), action) {
