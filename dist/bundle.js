@@ -40482,13 +40482,20 @@
 	            'Content-Type': 'application/json'
 	          },
 	          body: JSON.stringify({
-	            login: login,
-	            password: password
+	            login: action.login,
+	            password: action.password
 	          })
 	        }).then(function (response) {
-	          dispatch((0, _action_creators.updateAuthentication)({ "connected": true, "identity": response }));
+	          if (response.ok) {
+	            response.json().then(function (data) {
+	              console.log(data);
+	              store.dispatch((0, _action_creators.updateAuthentication)({ "connected": true, "identity": data }));
+	            });
+	          } else {
+	            store.dispatch((0, _action_creators.updateAuthentication)({ "connected": false, "identity": {} }));
+	          }
 	        }).catch(function (err) {
-	          dispatch((0, _action_creators.updateAuthentication)({ "connected": false, "identity": {} }));
+	          store.dispatch((0, _action_creators.updateAuthentication)({ "connected": false, "identity": {} }));
 	        });
 	      }
 	      if (action.type === 'OTHER_ACTION') {}
@@ -42864,6 +42871,8 @@
 
 	var _action_creators = __webpack_require__(300);
 
+	var _HTTPLoginBox = __webpack_require__(331);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var AccessPage = exports.AccessPage = _react2.default.createClass({
@@ -42872,20 +42881,11 @@
 
 	  mixins: [_reactAddonsPureRenderMixin2.default],
 
-	  onLoginSubmit: function onLoginSubmit() {
-	    console.log(this.props.login + '/' + this.props.password + '/' + this.props.params.device);
-	    this.props.dispatch((0, _action_creators.authenticateHTTP)(this.props.login, this.props.password));
-	  },
-
-	  onUpdateLogin: function onUpdateLogin(e) {
-	    this.props.dispatch((0, _action_creators.updateLogin)(e.target.value));
-	  },
-
-	  onUpdatePassword: function onUpdatePassword(e) {
-	    this.props.dispatch((0, _action_creators.updatePassword)(e.target.value));
-	  },
-
 	  render: function render() {
+
+	    var accessbox = '';
+	    var loginbox = _react2.default.createElement(_HTTPLoginBox.HTTPLoginBoxContainer, { visible: this.props.auth.connected });
+
 	    return _react2.default.createElement(
 	      'div',
 	      { className: 'accesspage' },
@@ -42915,23 +42915,88 @@
 	            ),
 	            _react2.default.createElement(
 	              'span',
-	              { className: 'watch' },
+	              {
+	                className: 'watch' },
 	              'Watch'
 	            )
 	          ),
-	          _react2.default.createElement(
-	            'span',
-	            { className: 'instructions' },
-	            'Please login to access your content'
-	          ),
-	          _react2.default.createElement(
-	            'form',
-	            { className: 'loginform', onSubmit: this.onLoginSubmit },
-	            _react2.default.createElement('input', { type: 'text', placeholder: 'Login', onChange: this.onUpdateLogin, value: this.props.login }),
-	            _react2.default.createElement('input', { type: 'password', placeholder: 'Password', onChange: this.onUpdatePassword, value: this.props.password }),
-	            _react2.default.createElement('input', { type: 'submit', value: 'Login', className: 'submit' })
-	          )
+	          loginbox,
+	          accessbox
 	        )
+	      )
+	    );
+	  }
+
+	});
+
+	function mapStateToProps(state) {
+	  return {
+	    auth: state.getIn(['ui', 'auth'])
+	  };
+	}
+
+	var AccessPageContainer = exports.AccessPageContainer = (0, _reactRedux.connect)(mapStateToProps)(AccessPage);
+
+/***/ },
+/* 331 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.HTTPLoginBoxContainer = exports.HTTPLoginBox = undefined;
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactAddonsPureRenderMixin = __webpack_require__(303);
+
+	var _reactAddonsPureRenderMixin2 = _interopRequireDefault(_reactAddonsPureRenderMixin);
+
+	var _reactRedux = __webpack_require__(234);
+
+	var _action_creators = __webpack_require__(300);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var HTTPLoginBox = exports.HTTPLoginBox = _react2.default.createClass({
+	  displayName: 'HTTPLoginBox',
+
+
+	  mixins: [_reactAddonsPureRenderMixin2.default],
+
+	  onLoginSubmit: function onLoginSubmit() {
+	    console.log(this.props.login + '/' + this.props.password + '/' + this.props.params.device);
+	    this.props.dispatch((0, _action_creators.authenticateHTTP)(this.props.login, this.props.password));
+	  },
+
+	  onUpdateLogin: function onUpdateLogin(e) {
+	    this.props.dispatch((0, _action_creators.updateLogin)(e.target.value));
+	  },
+
+	  onUpdatePassword: function onUpdatePassword(e) {
+	    this.props.dispatch((0, _action_creators.updatePassword)(e.target.value));
+	  },
+
+	  render: function render() {
+	    var activeClass = this.props.visible ? 'httploginbox' : 'httploginbox hidden';
+	    return _react2.default.createElement(
+	      'div',
+	      { className: activeClass },
+	      _react2.default.createElement(
+	        'span',
+	        { className: 'instructions' },
+	        'Please login to access your content'
+	      ),
+	      _react2.default.createElement(
+	        'form',
+	        { className: 'loginform', onSubmit: this.onLoginSubmit },
+	        _react2.default.createElement('input', { type: 'text', placeholder: 'Login', onChange: this.onUpdateLogin, value: this.props.login }),
+	        _react2.default.createElement('input', { type: 'password', placeholder: 'Password', onChange: this.onUpdatePassword, value: this.props.password }),
+	        _react2.default.createElement('input', { type: 'submit', value: 'Login', className: 'submit' })
 	      )
 	    );
 	  }
@@ -42945,7 +43010,7 @@
 	  };
 	}
 
-	var AccessPageContainer = exports.AccessPageContainer = (0, _reactRedux.connect)(mapStateToProps)(AccessPage);
+	var HTTPLoginBoxContainer = exports.HTTPLoginBoxContainer = (0, _reactRedux.connect)(mapStateToProps)(HTTPLoginBox);
 
 /***/ }
 /******/ ]);
