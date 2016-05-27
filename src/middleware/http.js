@@ -1,4 +1,4 @@
-import {refreshDevice, refreshCommand, updateAuthentication} from '../action_creators';
+import {refreshDevice, refreshCommand, updateAuthentication, updateDevice} from '../action_creators';
  
 export function httpMiddleware(store) {
 
@@ -34,7 +34,26 @@ export function httpMiddleware(store) {
       });
 
     }
-    if (action.type === 'OTHER_ACTION') {
+    if (action.type === 'REQ_DEVICE_ACCESS_INFO') {
+      console.log('Getting device access info for ' + action.device);
+      fetch(
+        '/ip/'+action.device, 
+        {
+          method: 'GET',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          }
+        }
+      ).then(function(response) {
+        if (response.ok) {
+          response.json().then(function(data) {  
+            console.log(data);  
+            store.dispatch(refreshDevice(data));
+          });
+        }
+      });
+
     }
    
     return next(action);

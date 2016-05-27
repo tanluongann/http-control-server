@@ -110,3 +110,11 @@ export function authenticateHTTP(login, password) {
 }
 
 
+export function requestDeviceAccessInfo(device) {
+  return {
+    type: 'REQ_DEVICE_ACCESS_INFO',
+    device: device
+  };
+}
+
+

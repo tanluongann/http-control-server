@@ -1,13 +1,19 @@
 import React from 'react';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import {connect} from 'react-redux';
-import {updatePassword, updateLogin, authenticateHTTP} from '../action_creators';
+import {requestDeviceAccessInfo} from '../action_creators';
 
 import {HTTPLoginBoxContainer} from '../components/HTTPLoginBox'
 
 export const AccessPage = React.createClass({
     
   mixins: [PureRenderMixin],    
+
+  requestAccess: function(device) {
+    this.props.dispatch(requestDeviceAccessInfo(
+      device
+    ));
+  },
 
   render: function() {
 

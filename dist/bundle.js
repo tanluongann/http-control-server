@@ -40350,6 +40350,7 @@
 	exports.updatePassword = updatePassword;
 	exports.authenticate = authenticate;
 	exports.authenticateHTTP = authenticateHTTP;
+	exports.requestDeviceAccessInfo = requestDeviceAccessInfo;
 	function setState(state) {
 	  return {
 	    type: 'SET_STATE',
@@ -40453,6 +40454,13 @@
 	  };
 	}
 
+	function requestDeviceAccessInfo(device) {
+	  return {
+	    type: 'REQ_DEVICE_ACCESS_INFO',
+	    device: device
+	  };
+	}
+
 /***/ },
 /* 301 */
 /***/ function(module, exports, __webpack_require__) {
@@ -40498,7 +40506,23 @@
 	          store.dispatch((0, _action_creators.updateAuthentication)({ "connected": false, "identity": {} }));
 	        });
 	      }
-	      if (action.type === 'OTHER_ACTION') {}
+	      if (action.type === 'REQ_DEVICE_ACCESS_INFO') {
+	        console.log('Getting device access info for ' + action.device);
+	        fetch('/ip/' + action.device, {
+	          method: 'GET',
+	          headers: {
+	            'Accept': 'application/json',
+	            'Content-Type': 'application/json'
+	          }
+	        }).then(function (response) {
+	          if (response.ok) {
+	            response.json().then(function (data) {
+	              console.log(data);
+	              store.dispatch((0, _action_creators.refreshDevice)(data));
+	            });
+	          }
+	        });
+	      }
 
 	      return next(action);
 	    };
@@ -42881,10 +42905,14 @@
 
 	  mixins: [_reactAddonsPureRenderMixin2.default],
 
+	  requestAccess: function requestAccess(device) {
+	    this.props.dispatch((0, _action_creators.requestDeviceAccessInfo)(device));
+	  },
+
 	  render: function render() {
 
 	    var accessbox = '';
-	    var loginbox = _react2.default.createElement(_HTTPLoginBox.HTTPLoginBoxContainer, { visible: this.props.auth.connected });
+	    var loginbox = _react2.default.createElement(_HTTPLoginBox.HTTPLoginBoxContainer, { visible: !this.props.auth || !this.props.auth.connected, device: this.props.params.device });
 
 	    return _react2.default.createElement(
 	      'div',
@@ -42969,7 +42997,7 @@
 	  mixins: [_reactAddonsPureRenderMixin2.default],
 
 	  onLoginSubmit: function onLoginSubmit() {
-	    console.log(this.props.login + '/' + this.props.password + '/' + this.props.params.device);
+	    console.log(this.props.login + '/' + this.props.password + '/' + this.props.device);
 	    this.props.dispatch((0, _action_creators.authenticateHTTP)(this.props.login, this.props.password));
 	  },
 
