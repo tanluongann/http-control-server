@@ -75,8 +75,8 @@ function authenticateHTTP(state, login, password) {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        name: state.login,
-        login: 'hubot',
+        login: login,
+        password: password
       })
     },
     (response) => {
