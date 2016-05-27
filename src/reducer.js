@@ -65,6 +65,31 @@ function updatePassword(state, value) {
   return state.setIn(['ui', 'logininfo', 'password'], value);
 }
 
+function authenticateHTTP(state, login, password) {
+  return fetch(
+    '/login', 
+    {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        name: state.login,
+        login: 'hubot',
+      })
+    },
+    (response) => {
+      dispatch(doneFetchingBook()); // Hide loading spinner
+      if(response.status == 200){
+        dispatch(setBook(response.json)); // Use a normal function to set the received state
+      } else { 
+        dispatch(someError)
+      }
+    }
+  )
+}
+
 export default function(state = Map(), action) {
   switch (action.type) {
     case 'SET_STATE':
@@ -87,8 +112,10 @@ export default function(state = Map(), action) {
       return updateCommandTimeout(state, action.deviceId, action.value);
     case 'UPDATE_AUTH':
       return updateAuthentication(state, action.status);
-    case 'AUTHENTICATE':
+    case 'AUTHENTICATE_WS':
       return state;
+    case 'AUTHENTICATE_HTTP':
+      return authenticateHTTP(state, action.login, action.password);
     case 'UPDATE_LOGIN':
       return updateLogin(state, action.value);
     case 'UPDATE_PASSWORD':

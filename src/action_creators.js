@@ -94,8 +94,19 @@ export function updatePassword(value) {
 }
 export function authenticate(login, password) {
   return {
-    type: 'AUTHENTICATE',
+    type: 'AUTHENTICATE_WS',
     login: login,
     password: password
   };
 }
+
+
+export function authenticateHTTP(login, password) {
+  return {
+    type: 'AUTHENTICATE_HTTP',
+    login: login,
+    password: password
+  };
+}
+
+

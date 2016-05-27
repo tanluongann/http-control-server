@@ -35126,8 +35126,10 @@
 	      return updateCommandTimeout(state, action.deviceId, action.value);
 	    case 'UPDATE_AUTH':
 	      return updateAuthentication(state, action.status);
-	    case 'AUTHENTICATE':
+	    case 'AUTHENTICATE_WS':
 	      return state;
+	    case 'AUTHENTICATE_HTTP':
+	      return authenticateHTTP(state, action.login, action.password);
 	    case 'UPDATE_LOGIN':
 	      return updateLogin(state, action.value);
 	    case 'UPDATE_PASSWORD':
@@ -35201,6 +35203,27 @@
 	function updatePassword(state, value) {
 	  console.log('Updating the password for to ' + value);
 	  return state.setIn(['ui', 'logininfo', 'password'], value);
+	}
+
+	function authenticateHTTP(state, login, password) {
+	  return fetch('/login', {
+	    method: 'POST',
+	    headers: {
+	      'Accept': 'application/json',
+	      'Content-Type': 'application/json'
+	    },
+	    body: JSON.stringify({
+	      name: state.login,
+	      login: 'hubot'
+	    })
+	  }, function (response) {
+	    dispatch(doneFetchingBook()); // Hide loading spinner
+	    if (response.status == 200) {
+	      dispatch(setBook(response.json)); // Use a normal function to set the received state
+	    } else {
+	        dispatch(someError);
+	      }
+	  });
 	}
 
 /***/ },
@@ -40346,6 +40369,7 @@
 	exports.updateLogin = updateLogin;
 	exports.updatePassword = updatePassword;
 	exports.authenticate = authenticate;
+	exports.authenticateHTTP = authenticateHTTP;
 	function setState(state) {
 	  return {
 	    type: 'SET_STATE',
@@ -40435,7 +40459,15 @@
 	}
 	function authenticate(login, password) {
 	  return {
-	    type: 'AUTHENTICATE',
+	    type: 'AUTHENTICATE_WS',
+	    login: login,
+	    password: password
+	  };
+	}
+
+	function authenticateHTTP(login, password) {
+	  return {
+	    type: 'AUTHENTICATE_HTTP',
 	    login: login,
 	    password: password
 	  };
