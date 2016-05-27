@@ -15,8 +15,9 @@ export const AccessLinksBox = React.createClass({
       "kodi": "http://"+this.props.device.ip+":8080",
     }
     var activeClass = this.props.visible ? 'accesslinksbox' : 'accesslinksbox hidden';
-    return <div className={ activeClass }>
-      <span className="instructions">Select the service you want to open</span>
+
+    var content = 'No device info';
+    if (device) content = <div><span className="instructions">Select the service you want to open</span>
       <ul>
         <li>
           <a href= { links['sonarr'] }>
@@ -43,6 +44,10 @@ export const AccessLinksBox = React.createClass({
           </a>
         </li>
       </ul>
+    </div>
+
+    return <div className={ activeClass }>
+      { content }
     </div>;
   }
 
