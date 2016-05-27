@@ -22,7 +22,11 @@ export const AccessPage = React.createClass({
       view.requestAccess(view.props.params.device);
     }
 
-    var accessbox = '';
+    var device = this.props.devices.get(view.props.params.device);
+    var accessbox = <AccessLinksBoxContainer 
+      device={ device }
+    ></AccessLinksBoxContainer>
+
     var loginbox = <HTTPLoginBoxContainer 
       visible={ !this.props.auth || !this.props.auth.connected } 
       device={ this.props.params.device }
@@ -49,6 +53,7 @@ export const AccessPage = React.createClass({
 function mapStateToProps(state) {
   return {
     auth: state.getIn(['ui', 'auth']),
+    devices: state.getIn(['devices']),
   };
 }
 
