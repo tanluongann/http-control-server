@@ -42899,17 +42899,13 @@
 
 	var _reactAddonsPureRenderMixin2 = _interopRequireDefault(_reactAddonsPureRenderMixin);
 
-	var _classnames = __webpack_require__(331);
-
-	var _classnames2 = _interopRequireDefault(_classnames);
-
 	var _reactRedux = __webpack_require__(234);
 
 	var _action_creators = __webpack_require__(300);
 
-	var _HTTPLoginBox = __webpack_require__(332);
+	var _HTTPLoginBox = __webpack_require__(331);
 
-	var _AccessLinksBox = __webpack_require__(333);
+	var _AccessLinksBox = __webpack_require__(332);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -42931,7 +42927,7 @@
 	    };
 
 	    var connected = this.props.auth && this.props.auth.connected;
-	    var classNames = classNames(['accesspage', connected ? 'auth' : 'noauth']);
+	    var classNames = ['accesspage', connected ? 'auth' : 'noauth'];
 
 	    var device = null;
 	    if (this.props.devices) device = this.props.devices.get(view.props.params.device);
@@ -42941,7 +42937,7 @@
 
 	    return _react2.default.createElement(
 	      'div',
-	      { className: classNames },
+	      { className: classNames.join(' ') },
 	      _react2.default.createElement(
 	        'div',
 	        { className: 'box' },
@@ -42993,60 +42989,6 @@
 
 /***/ },
 /* 331 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
-	  Copyright (c) 2016 Jed Watson.
-	  Licensed under the MIT License (MIT), see
-	  http://jedwatson.github.io/classnames
-	*/
-	/* global define */
-
-	(function () {
-		'use strict';
-
-		var hasOwn = {}.hasOwnProperty;
-
-		function classNames () {
-			var classes = [];
-
-			for (var i = 0; i < arguments.length; i++) {
-				var arg = arguments[i];
-				if (!arg) continue;
-
-				var argType = typeof arg;
-
-				if (argType === 'string' || argType === 'number') {
-					classes.push(arg);
-				} else if (Array.isArray(arg)) {
-					classes.push(classNames.apply(null, arg));
-				} else if (argType === 'object') {
-					for (var key in arg) {
-						if (hasOwn.call(arg, key) && arg[key]) {
-							classes.push(key);
-						}
-					}
-				}
-			}
-
-			return classes.join(' ');
-		}
-
-		if (typeof module !== 'undefined' && module.exports) {
-			module.exports = classNames;
-		} else if (true) {
-			// register as 'classnames', consistent with npm package name
-			!(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_RESULT__ = function () {
-				return classNames;
-			}.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-		} else {
-			window.classNames = classNames;
-		}
-	}());
-
-
-/***/ },
-/* 332 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -43121,7 +43063,7 @@
 	var HTTPLoginBoxContainer = exports.HTTPLoginBoxContainer = (0, _reactRedux.connect)(mapStateToProps)(HTTPLoginBox);
 
 /***/ },
-/* 333 */
+/* 332 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';

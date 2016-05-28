@@ -379,14 +379,16 @@ body {
         .accesspage .box .panel2 .loginform .submit:hover {
           background: #CBF399; }
       .accesspage .box .panel2 .links {
-        margin: 0;
+        margin: 0 40px;
         padding: 0;
         list-style: none; }
         .accesspage .box .panel2 .links li {
           display: inline-block;
           width: 80px;
           height: 80px;
-          background: #E4E4E4; }
+          background: #E4E4E4;
+          margin: 5px;
+          padding: 15px; }
           .accesspage .box .panel2 .links li a {
             text-decoration: none;
             color: #ADADAD;
@@ -401,7 +403,8 @@ body {
               padding-bottom: 10px; }
 
 .accesspage.noauth .box {
-  width: 400px; }
+  width: 400px;
+  left: calc(50% - 200px); }
 
 .accesspage.noauth .avatar {
   height: 100px; }
@@ -415,10 +418,11 @@ body {
   z-index: 1; }
 
 .accesspage.auth .box {
-  width: 600px; }
+  width: 600px;
+  left: calc(50% - 300px); }
 
 .accesspage.auth .avatar {
-  height: 0; }
+  height: 0 !important; }
 
 .accesspage.auth .httploginbox {
   opacity: 0;
