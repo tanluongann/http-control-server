@@ -36,7 +36,7 @@ export const HTTPLoginBox = React.createClass({
         <input type="password" placeholder="Password" onChange={ this.onUpdatePassword } value={ this.props.password }/>
         <input type="submit" value="Login" className="submit" />
       </form>
-      <iframe id="passwordIframe" name="passwordIframe" style='display:none'></iframe>
+      <iframe id="passwordIframe" name="passwordIframe" className="trick"></iframe>
     </div>;
   }
 
