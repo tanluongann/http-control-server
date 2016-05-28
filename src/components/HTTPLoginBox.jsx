@@ -31,11 +31,13 @@ export const HTTPLoginBox = React.createClass({
   render: function() {
     var activeClass = this.props.visible ? 'httploginbox' : 'httploginbox hidden';
     return <div className={ activeClass }><span className="instructions">Please login to access your content</span>
-      <form className="loginform" onSubmit={ this.onLoginSubmit }>
+      <form className="loginform" onSubmit={ this.onLoginSubmit } target="passwordIframe" method='POST' action="blank">
         <input type="text" placeholder="Login" onChange={ this.onUpdateLogin } value={ this.props.login }/>
         <input type="password" placeholder="Password" onChange={ this.onUpdatePassword } value={ this.props.password }/>
         <input type="submit" value="Login" className="submit" />
-      </form></div>;
+      </form>
+      <iframe id="passwordIframe" name="passwordIframe" style='display:none'></iframe>
+    </div>;
   }
 
 });
