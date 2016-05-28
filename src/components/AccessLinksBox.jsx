@@ -41,7 +41,7 @@ export const AccessLinksBox = React.createClass({
           <li>
             <a href={ links['kodi'] } target="_blank">
               <i className="fa fa-fw fa-television"></i>
-              <span className="name">TV Playrt</span>
+              <span className="name">TV Player</span>
             </a>
           </li>
         </ul>
