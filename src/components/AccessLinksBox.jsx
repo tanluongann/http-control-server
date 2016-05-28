@@ -18,7 +18,7 @@ export const AccessLinksBox = React.createClass({
       "transmission": "http://"+device.ip+":9091",
       "kodi": "http://"+device.ip+":8080",
     }
-    content = <div className={ device.empty ? 'empty' : '' } >
+    var content = <div className={ device.empty ? 'empty' : '' } >
       <span className="instructions">Select the service you want to open</span>
       <ul className="links">
         <li>
