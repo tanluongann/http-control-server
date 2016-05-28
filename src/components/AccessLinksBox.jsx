@@ -21,25 +21,25 @@ export const AccessLinksBox = React.createClass({
       content = <div><span className="instructions">Select the service you want to open</span>
         <ul className="links">
           <li>
-            <a href= { links['sonarr'] }>
+            <a href={ links['sonarr'] } target="_blank">
               <i className="fa fa-fw fa-calendar-check-o"></i>
               <span className="name">TV Shows</span>
             </a>
           </li>
           <li>
-            <a href= { links['couchpotato'] }>
+            <a href={ links['couchpotato'] } target="_blank">
               <i className="fa fa-fw fa-ticket"></i>
               <span className="name">Movies</span>
             </a>
           </li>
           <li>
-            <a href= { links['transmission'] }>
+            <a href={ links['transmission'] } target="_blank">
               <i className="fa fa-fw fa-cloud-download"></i>
               <span className="name">Downloads</span>
             </a>
           </li>
           <li>
-            <a href= { links['kodi'] }>
+            <a href={ links['kodi'] } target="_blank">
               <i className="fa fa-fw fa-television"></i>
               <span className="name">TV Playrt</span>
             </a>
