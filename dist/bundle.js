@@ -40446,11 +40446,12 @@
 	  };
 	}
 
-	function authenticateHTTP(login, password) {
+	function authenticateHTTP(login, password, callback) {
 	  return {
 	    type: 'AUTHENTICATE_HTTP',
 	    login: login,
-	    password: password
+	    password: password,
+	    callback: callback
 	  };
 	}
 
@@ -40498,6 +40499,7 @@
 	            response.json().then(function (data) {
 	              console.log(data);
 	              store.dispatch((0, _action_creators.updateAuthentication)({ "connected": true, "identity": data }));
+	              if (action.callback) action.callback();
 	            });
 	          } else {
 	            store.dispatch((0, _action_creators.updateAuthentication)({ "connected": false, "identity": {} }));
@@ -40508,16 +40510,22 @@
 	      }
 	      if (action.type === 'REQ_DEVICE_ACCESS_INFO') {
 	        console.log('Getting device access info for ' + action.device);
-	        fetch('/ip/' + action.device, {
-	          method: 'GET',
+	        var state = store.getState();
+	        fetch('/devices/' + action.device, {
+	          method: 'POST',
 	          headers: {
 	            'Accept': 'application/json',
 	            'Content-Type': 'application/json'
-	          }
+	          },
+	          body: JSON.stringify({
+	            login: state.getIn(['ui', 'logininfo', 'login']),
+	            password: state.getIn(['ui', 'logininfo', 'password'])
+	          })
 	        }).then(function (response) {
 	          if (response.ok) {
 	            response.json().then(function (data) {
 	              console.log(data);
+	              data.id = data.hash;
 	              store.dispatch((0, _action_creators.refreshDevice)(data));
 	            });
 	          }
@@ -42891,11 +42899,17 @@
 
 	var _reactAddonsPureRenderMixin2 = _interopRequireDefault(_reactAddonsPureRenderMixin);
 
+	var _classnames = __webpack_require__(331);
+
+	var _classnames2 = _interopRequireDefault(_classnames);
+
 	var _reactRedux = __webpack_require__(234);
 
 	var _action_creators = __webpack_require__(300);
 
-	var _HTTPLoginBox = __webpack_require__(331);
+	var _HTTPLoginBox = __webpack_require__(332);
+
+	var _AccessLinksBox = __webpack_require__(333);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -42911,12 +42925,23 @@
 
 	  render: function render() {
 
-	    var accessbox = '';
-	    var loginbox = _react2.default.createElement(_HTTPLoginBox.HTTPLoginBoxContainer, { visible: !this.props.auth || !this.props.auth.connected, device: this.props.params.device });
+	    var view = this;
+	    var authCallback = function authCallback() {
+	      view.requestAccess(view.props.params.device);
+	    };
+
+	    var connected = this.props.auth && this.props.auth.connected;
+	    var classNames = classNames(['accesspage', connected ? 'auth' : 'noauth']);
+
+	    var device = null;
+	    if (this.props.devices) device = this.props.devices.get(view.props.params.device);
+
+	    var accessbox = _react2.default.createElement(_AccessLinksBox.AccessLinksBoxContainer, { device: device });
+	    var loginbox = _react2.default.createElement(_HTTPLoginBox.HTTPLoginBoxContainer, { device: device, authCallback: authCallback });
 
 	    return _react2.default.createElement(
 	      'div',
-	      { className: 'accesspage' },
+	      { className: classNames },
 	      _react2.default.createElement(
 	        'div',
 	        { className: 'box' },
@@ -42959,7 +42984,8 @@
 
 	function mapStateToProps(state) {
 	  return {
-	    auth: state.getIn(['ui', 'auth'])
+	    auth: state.getIn(['ui', 'auth']),
+	    devices: state.getIn(['devices'])
 	  };
 	}
 
@@ -42967,6 +42993,60 @@
 
 /***/ },
 /* 331 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
+	  Copyright (c) 2016 Jed Watson.
+	  Licensed under the MIT License (MIT), see
+	  http://jedwatson.github.io/classnames
+	*/
+	/* global define */
+
+	(function () {
+		'use strict';
+
+		var hasOwn = {}.hasOwnProperty;
+
+		function classNames () {
+			var classes = [];
+
+			for (var i = 0; i < arguments.length; i++) {
+				var arg = arguments[i];
+				if (!arg) continue;
+
+				var argType = typeof arg;
+
+				if (argType === 'string' || argType === 'number') {
+					classes.push(arg);
+				} else if (Array.isArray(arg)) {
+					classes.push(classNames.apply(null, arg));
+				} else if (argType === 'object') {
+					for (var key in arg) {
+						if (hasOwn.call(arg, key) && arg[key]) {
+							classes.push(key);
+						}
+					}
+				}
+			}
+
+			return classes.join(' ');
+		}
+
+		if (typeof module !== 'undefined' && module.exports) {
+			module.exports = classNames;
+		} else if (true) {
+			// register as 'classnames', consistent with npm package name
+			!(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_RESULT__ = function () {
+				return classNames;
+			}.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+		} else {
+			window.classNames = classNames;
+		}
+	}());
+
+
+/***/ },
+/* 332 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -42998,7 +43078,7 @@
 
 	  onLoginSubmit: function onLoginSubmit() {
 	    console.log(this.props.login + '/' + this.props.password + '/' + this.props.device);
-	    this.props.dispatch((0, _action_creators.authenticateHTTP)(this.props.login, this.props.password));
+	    this.props.dispatch((0, _action_creators.authenticateHTTP)(this.props.login, this.props.password, this.props.authCallback));
 	  },
 
 	  onUpdateLogin: function onUpdateLogin(e) {
@@ -43039,6 +43119,134 @@
 	}
 
 	var HTTPLoginBoxContainer = exports.HTTPLoginBoxContainer = (0, _reactRedux.connect)(mapStateToProps)(HTTPLoginBox);
+
+/***/ },
+/* 333 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.AccessLinksBoxContainer = exports.AccessLinksBox = undefined;
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactAddonsPureRenderMixin = __webpack_require__(303);
+
+	var _reactAddonsPureRenderMixin2 = _interopRequireDefault(_reactAddonsPureRenderMixin);
+
+	var _reactRedux = __webpack_require__(234);
+
+	var _action_creators = __webpack_require__(300);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var AccessLinksBox = exports.AccessLinksBox = _react2.default.createClass({
+	  displayName: 'AccessLinksBox',
+
+
+	  mixins: [_reactAddonsPureRenderMixin2.default],
+
+	  render: function render() {
+	    var activeClass = this.props.visible ? 'accesslinksbox' : 'accesslinksbox hidden';
+
+	    var content = 'No device info';
+	    if (this.props.device) {
+	      var links = {
+	        "sonarr": "http://" + this.props.device.ip + ":8989/calendar",
+	        "couchpotato": "http://" + this.props.device.ip + ":5050",
+	        "transmission": "http://" + this.props.device.ip + ":9091",
+	        "kodi": "http://" + this.props.device.ip + ":8080"
+	      };
+	      content = _react2.default.createElement(
+	        'div',
+	        null,
+	        _react2.default.createElement(
+	          'span',
+	          { className: 'instructions' },
+	          'Select the service you want to open'
+	        ),
+	        _react2.default.createElement(
+	          'ul',
+	          { className: 'links' },
+	          _react2.default.createElement(
+	            'li',
+	            null,
+	            _react2.default.createElement(
+	              'a',
+	              { href: links['sonarr'] },
+	              _react2.default.createElement('i', { className: 'fa fa-fw fa-calendar-check-o' }),
+	              _react2.default.createElement(
+	                'span',
+	                { className: 'name' },
+	                'TV Shows'
+	              )
+	            )
+	          ),
+	          _react2.default.createElement(
+	            'li',
+	            null,
+	            _react2.default.createElement(
+	              'a',
+	              { href: links['couchpotato'] },
+	              _react2.default.createElement('i', { className: 'fa fa-fw fa-ticket' }),
+	              _react2.default.createElement(
+	                'span',
+	                { className: 'name' },
+	                'Movies'
+	              )
+	            )
+	          ),
+	          _react2.default.createElement(
+	            'li',
+	            null,
+	            _react2.default.createElement(
+	              'a',
+	              { href: links['transmission'] },
+	              _react2.default.createElement('i', { className: 'fa fa-fw fa-cloud-download' }),
+	              _react2.default.createElement(
+	                'span',
+	                { className: 'name' },
+	                'Downloads'
+	              )
+	            )
+	          ),
+	          _react2.default.createElement(
+	            'li',
+	            null,
+	            _react2.default.createElement(
+	              'a',
+	              { href: links['kodi'] },
+	              _react2.default.createElement('i', { className: 'fa fa-fw fa-television' }),
+	              _react2.default.createElement(
+	                'span',
+	                { className: 'name' },
+	                'TV Playrt'
+	              )
+	            )
+	          )
+	        )
+	      );
+	    }
+
+	    return _react2.default.createElement(
+	      'div',
+	      { className: activeClass },
+	      content
+	    );
+	  }
+
+	});
+
+	function mapStateToProps(state) {
+	  return {};
+	}
+
+	var AccessLinksBoxContainer = exports.AccessLinksBoxContainer = (0, _reactRedux.connect)(mapStateToProps)(AccessLinksBox);
 
 /***/ }
 /******/ ]);

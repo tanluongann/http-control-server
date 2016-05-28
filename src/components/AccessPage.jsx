@@ -1,5 +1,6 @@
 import React from 'react';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
+import classNames from 'classnames';
 import {connect} from 'react-redux';
 import {requestDeviceAccessInfo} from '../action_creators';
 
@@ -23,20 +24,16 @@ export const AccessPage = React.createClass({
       view.requestAccess(view.props.params.device);
     }
 
+    var connected = this.props.auth && this.props.auth.connected;
+    var classNames = classNames(['accesspage', connected ? 'auth' : 'noauth']);
+
     var device = null;
     if (this.props.devices) device = this.props.devices.get(view.props.params.device);
-    var accessbox = <AccessLinksBoxContainer 
-      visible={ this.props.auth && this.props.auth.connected } 
-      device={ device }
-    ></AccessLinksBoxContainer>
 
-    var loginbox = <HTTPLoginBoxContainer 
-      visible={ !this.props.auth || !this.props.auth.connected } 
-      device={ this.props.params.device }
-      authCallback={ authCallback }
-    ></HTTPLoginBoxContainer>;
+    var accessbox = <AccessLinksBoxContainer  device={ device } ></AccessLinksBoxContainer>
+    var loginbox = <HTTPLoginBoxContainer device={ device } authCallback={ authCallback } ></HTTPLoginBoxContainer>;
 
-    return <div className="accesspage">
+    return <div className={ classNames }>
       <div className="box">
         <div className="panel2">
           <span className="avatar">?</span>

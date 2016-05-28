@@ -19,7 +19,7 @@ export const AccessLinksBox = React.createClass({
         "kodi": "http://"+this.props.device.ip+":8080",
       }
       content = <div><span className="instructions">Select the service you want to open</span>
-        <ul>
+        <ul className="links">
           <li>
             <a href= { links['sonarr'] }>
               <i className="fa fa-fw fa-calendar-check-o"></i>
