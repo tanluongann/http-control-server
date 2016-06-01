@@ -382,25 +382,37 @@ body {
         margin: 0 40px;
         padding: 0;
         list-style: none; }
+        .accesspage .box .panel2 .links li:hover {
+          background: #F79744; }
+          .accesspage .box .panel2 .links li:hover a {
+            color: white; }
         .accesspage .box .panel2 .links li {
           display: inline-block;
           width: 80px;
           height: 80px;
           background: #E4E4E4;
           margin: 5px;
-          padding: 15px; }
+          padding: 15px;
+          border-radius: 2px;
+          transition-property: background;
+          transition-duration: 0.5s;
+          transition-timing-function: ease-out; }
           .accesspage .box .panel2 .links li a {
             text-decoration: none;
             color: #ADADAD;
             text-align: center;
             display: block;
-            padding: 10px 5px; }
+            padding: 10px 5px;
+            transition-property: color;
+            transition-duration: 0.5s;
+            transition-timing-function: ease-out; }
             .accesspage .box .panel2 .links li a i {
               display: block;
               font-size: 30px;
               text-align: center;
               width: 100%;
-              padding-bottom: 10px; }
+              padding-bottom: 10px;
+              opacity: 0.4; }
 
 .accesspage.noauth .box {
   width: 400px;
@@ -431,3 +443,6 @@ body {
 .accesspage.auth .accesslinksbox {
   opacity: 1;
   z-index: 3; }
+
+.trick {
+  display: none; }

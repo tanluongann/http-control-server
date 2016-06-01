@@ -43043,11 +43043,12 @@
 	      ),
 	      _react2.default.createElement(
 	        'form',
-	        { className: 'loginform', onSubmit: this.onLoginSubmit },
+	        { className: 'loginform', onSubmit: this.onLoginSubmit, target: 'passwordIframe', method: 'POST', action: 'blank' },
 	        _react2.default.createElement('input', { type: 'text', placeholder: 'Login', onChange: this.onUpdateLogin, value: this.props.login }),
 	        _react2.default.createElement('input', { type: 'password', placeholder: 'Password', onChange: this.onUpdatePassword, value: this.props.password }),
 	        _react2.default.createElement('input', { type: 'submit', value: 'Login', className: 'submit' })
-	      )
+	      ),
+	      _react2.default.createElement('iframe', { id: 'passwordIframe', name: 'passwordIframe', className: 'trick' })
 	    );
 	  }
 
@@ -43096,84 +43097,83 @@
 	  render: function render() {
 	    var activeClass = this.props.visible ? 'accesslinksbox' : 'accesslinksbox hidden';
 
-	    var content = 'No device info';
-	    if (this.props.device) {
-	      var links = {
-	        "sonarr": "http://" + this.props.device.ip + ":8989/calendar",
-	        "couchpotato": "http://" + this.props.device.ip + ":5050",
-	        "transmission": "http://" + this.props.device.ip + ":9091",
-	        "kodi": "http://" + this.props.device.ip + ":8080"
-	      };
-	      content = _react2.default.createElement(
-	        'div',
-	        null,
+	    var device = this.props.device;
+	    if (!device) device = { ip: "127.0.0.1", empty: true };
+	    var links = {
+	      "sonarr": "http://" + device.ip + ":8989/calendar",
+	      "couchpotato": "http://" + device.ip + ":5050",
+	      "transmission": "http://" + device.ip + ":9091",
+	      "kodi": "http://" + device.ip + ":8080"
+	    };
+	    var content = _react2.default.createElement(
+	      'div',
+	      { className: device.empty ? 'empty' : '' },
+	      _react2.default.createElement(
+	        'span',
+	        { className: 'instructions' },
+	        'Select the service you want to open'
+	      ),
+	      _react2.default.createElement(
+	        'ul',
+	        { className: 'links' },
 	        _react2.default.createElement(
-	          'span',
-	          { className: 'instructions' },
-	          'Select the service you want to open'
+	          'li',
+	          null,
+	          _react2.default.createElement(
+	            'a',
+	            { href: links['sonarr'], target: '_blank' },
+	            _react2.default.createElement('i', { className: 'fa fa-fw fa-calendar-check-o' }),
+	            _react2.default.createElement(
+	              'span',
+	              { className: 'name' },
+	              'TV Shows'
+	            )
+	          )
 	        ),
 	        _react2.default.createElement(
-	          'ul',
-	          { className: 'links' },
+	          'li',
+	          null,
 	          _react2.default.createElement(
-	            'li',
-	            null,
+	            'a',
+	            { href: links['couchpotato'], target: '_blank' },
+	            _react2.default.createElement('i', { className: 'fa fa-fw fa-ticket' }),
 	            _react2.default.createElement(
-	              'a',
-	              { href: links['sonarr'] },
-	              _react2.default.createElement('i', { className: 'fa fa-fw fa-calendar-check-o' }),
-	              _react2.default.createElement(
-	                'span',
-	                { className: 'name' },
-	                'TV Shows'
-	              )
+	              'span',
+	              { className: 'name' },
+	              'Movies'
 	            )
-	          ),
+	          )
+	        ),
+	        _react2.default.createElement(
+	          'li',
+	          null,
 	          _react2.default.createElement(
-	            'li',
-	            null,
+	            'a',
+	            { href: links['transmission'], target: '_blank' },
+	            _react2.default.createElement('i', { className: 'fa fa-fw fa-cloud-download' }),
 	            _react2.default.createElement(
-	              'a',
-	              { href: links['couchpotato'] },
-	              _react2.default.createElement('i', { className: 'fa fa-fw fa-ticket' }),
-	              _react2.default.createElement(
-	                'span',
-	                { className: 'name' },
-	                'Movies'
-	              )
+	              'span',
+	              { className: 'name' },
+	              'Downloads'
 	            )
-	          ),
+	          )
+	        ),
+	        _react2.default.createElement(
+	          'li',
+	          null,
 	          _react2.default.createElement(
-	            'li',
-	            null,
+	            'a',
+	            { href: links['kodi'], target: '_blank' },
+	            _react2.default.createElement('i', { className: 'fa fa-fw fa-television' }),
 	            _react2.default.createElement(
-	              'a',
-	              { href: links['transmission'] },
-	              _react2.default.createElement('i', { className: 'fa fa-fw fa-cloud-download' }),
-	              _react2.default.createElement(
-	                'span',
-	                { className: 'name' },
-	                'Downloads'
-	              )
-	            )
-	          ),
-	          _react2.default.createElement(
-	            'li',
-	            null,
-	            _react2.default.createElement(
-	              'a',
-	              { href: links['kodi'] },
-	              _react2.default.createElement('i', { className: 'fa fa-fw fa-television' }),
-	              _react2.default.createElement(
-	                'span',
-	                { className: 'name' },
-	                'TV Playrt'
-	              )
+	              'span',
+	              { className: 'name' },
+	              'TV Player'
 	            )
 	          )
 	        )
-	      );
-	    }
+	      )
+	    );
 
 	    return _react2.default.createElement(
 	      'div',
