@@ -17,7 +17,7 @@ nconf.file({ file: "config.json" });
 // -------------------------------------------
 
 var server = httpmanager.init(app, dbmanager);
-var io = iomanager.init(server);
+var io = iomanager.init(server, dbmanager);
 
 httpmanager.listen(function() {
   console.log('global - Listening HTTPS on 443');
