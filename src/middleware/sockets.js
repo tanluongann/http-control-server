@@ -25,7 +25,7 @@ export function socketMiddleware(store) {
         socket.emit('setupdevice', c);
       }
     }
-    if (action.type === 'AUTHENTICATE') {
+    if (action.type === 'AUTHENTICATE_WS') {
       console.log('[WSIO] Logging in with '+action.login);
       socket = initSocket(store, socket, url, action.login, action.password);
     }

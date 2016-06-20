@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import {sendCommandToDevice} from '../action_creators';
 
 import {DeviceContainer} from '../components/Device'
-import {LoginBoxContainer} from '../components/LoginBox'
+import {HTTPLoginBoxContainer} from '../components/HTTPLoginBox'
 import {LoggedPanelContainer} from '../components/LoggedPanel'
 
 export const Devices = React.createClass({
@@ -20,7 +20,7 @@ export const Devices = React.createClass({
     var auth = this.props.auth ? this.props.auth : { "connected": false, "identity": null };
 
     return <div>
-      { auth.connected ? <LoggedPanelContainer></LoggedPanelContainer> : <LoginBoxContainer></LoginBoxContainer> }
+      { auth.connected ? <LoggedPanelContainer></LoggedPanelContainer> : <HTTPLoginBoxContainer></HTTPLoginBoxContainer> }
       <span className="title" key="2">
         <i className="fa fw fa-hashtag"></i>
         Devices
