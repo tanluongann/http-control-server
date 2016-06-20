@@ -48,9 +48,9 @@ export const Device = React.createClass({
 
     return <li key={ this.props.device.id } className={ this.props.device.connected ? 'connected' : 'disconnected' } >
       <span className="header" onClick={ this.selectDevice }>
-        <span className="name">{ this.props.device.id}</span>
+        <span className="name">{ this.props.device.name}</span>
         <span className="hash">{ this.props.device.id}</span>
-        <span className="ip">{ this.props.device.id}</span>
+        <span className="ip">{ this.props.device.ip}</span>
       </span>
       <span className="version">v{ this.props.device.version}</span>
       <div className={ this.props.device.id ==  this.props.selectedDevice ? 'details selected' : 'details' }>
